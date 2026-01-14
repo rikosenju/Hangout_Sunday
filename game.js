@@ -2,6 +2,15 @@
 
 
 let gameStarted = false;
+
+const isTouchDevice =
+  "ontouchstart" in window ||
+  navigator.maxTouchPoints > 0;
+
+if (isTouchDevice) {
+  document.getElementById("joystick").style.display = "block";
+}
+
 /* ===============================
    CANVAS SETUP
 ================================ */
@@ -28,6 +37,60 @@ window.addEventListener("keyup", e => {
   if (!gameStarted) return;
   keys[e.key] = false;
 });
+
+const joy = {
+  active: false,
+  startX: 0,
+  startY: 0,
+  x: 0,
+  y: 0,
+  max: 40
+};
+
+const joyBase = document.getElementById("joy-base");
+const joyStick = document.getElementById("joy-stick");
+
+joyBase.addEventListener("touchstart", e => {
+  joy.active = true;
+  const t = e.touches[0];
+  joy.startX = t.clientX;
+  joy.startY = t.clientY;
+});
+
+joyBase.addEventListener("touchmove", e => {
+  if (!joy.active) return;
+
+  const t = e.touches[0];
+  let dx = t.clientX - joy.startX;
+  let dy = t.clientY - joy.startY;
+
+  const dist = Math.hypot(dx, dy);
+  if (dist > joy.max) {
+    dx = (dx / dist) * joy.max;
+    dy = (dy / dist) * joy.max;
+  }
+
+  joy.x = dx;
+  joy.y = dy;
+
+  joyStick.style.transform = `translate(${dx}px, ${dy}px)`;
+
+  // Reset keys
+  keys.w = keys.a = keys.s = keys.d = false;
+
+  if (dy < -10) keys.w = true;
+  if (dy > 10) keys.s = true;
+  if (dx < -10) keys.a = true;
+  if (dx > 10) keys.d = true;
+});
+
+joyBase.addEventListener("touchend", () => {
+  joy.active = false;
+  joy.x = joy.y = 0;
+  joyStick.style.transform = "translate(0, 0)";
+  keys.w = keys.a = keys.s = keys.d = false;
+});
+
 
 
 /* ===============================
@@ -276,5 +339,6 @@ document.getElementById("startBtn").onclick = () => {
   gameStarted = true;
   document.getElementById("betaNotice").style.display = "none";
 };
+
 
 
