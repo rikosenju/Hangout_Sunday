@@ -161,7 +161,7 @@ let TILE_SIZE = 16;
 const tilesetImage = new Image();
 tilesetImage.src = "assets/tiles/map2.png"; // your PNG
 
-let mapLayers = [];
+let mapLayer = null;
 
 fetch("map2_project.json")
   .then(res => res.json())
@@ -276,4 +276,5 @@ document.getElementById("startBtn").onclick = () => {
   gameStarted = true;
   document.getElementById("betaNotice").style.display = "none";
 };
+
 
