@@ -1,5 +1,11 @@
 
-
+import { db, auth } from "./firebase.js";
+import {
+  ref,
+  set,
+  onValue,
+  onDisconnect
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 let gameStarted = false;
 
@@ -116,6 +122,8 @@ const camera = {
 /* ===============================
    CHARACTER
 ================================ */
+let playerId = null;
+let otherPlayers = {};
 
 class Character {
   constructor(x, y, sprites) {
