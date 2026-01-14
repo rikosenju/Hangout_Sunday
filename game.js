@@ -10,7 +10,6 @@ const isTouchDevice =
 if (isTouchDevice) {
   document.getElementById("joystick").style.display = "block";
 }
-
 /* ===============================
    CANVAS SETUP
 ================================ */
@@ -339,6 +338,7 @@ document.getElementById("startBtn").onclick = () => {
   gameStarted = true;
   document.getElementById("betaNotice").style.display = "none";
 };
+
 
 
 
