@@ -1,7 +1,7 @@
 
 
 
-
+let gameStarted = false;
 /* ===============================
    CANVAS SETUP
 ================================ */
@@ -13,7 +13,7 @@ canvas.width = 800;
 canvas.height = 450;
 ctx.imageSmoothingEnabled = false;
 
-let gameStarted = false;
+
 /* ===============================
    INPUT
 ================================ */
@@ -276,3 +276,4 @@ document.getElementById("startBtn").onclick = () => {
   gameStarted = true;
   document.getElementById("betaNotice").style.display = "none";
 };
+
